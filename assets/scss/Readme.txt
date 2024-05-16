@@ -1,2 +1,2 @@
 The .scss (Sass) files are only available in the pro version.
-You can buy it from: https://bootstrapmade.com/Badminton Skibidi Event-bootstrap-construction-website-template/
+You can buy it from: https://bootstrapmade.com/Skibidi Badminton Competition-bootstrap-construction-website-template/

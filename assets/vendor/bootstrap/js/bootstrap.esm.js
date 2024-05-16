@@ -314,13 +314,13 @@ const getNextActiveElement = (list, activeElement, shouldGetNext, isCycleAllowed
 const namespaceRegex = /[^.]*(?=\..*)\.|.*/;
 const stripNameRegex = /\..*/;
 const stripUidRegex = /::\d+$/;
-const eventRegistry = {}; // Events storage
+const eventRegistry = {}; // events storage
 let uidEvent = 1;
-const customEvents = {
+const customevents = {
   mouseenter: 'mouseover',
   mouseleave: 'mouseout'
 };
-const nativeEvents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'contextmenu', 'mousewheel', 'DOMMouseScroll', 'mouseover', 'mouseout', 'mousemove', 'selectstart', 'selectend', 'keydown', 'keypress', 'keyup', 'orientationchange', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'pointerdown', 'pointermove', 'pointerup', 'pointerleave', 'pointercancel', 'gesturestart', 'gesturechange', 'gestureend', 'focus', 'blur', 'change', 'reset', 'select', 'submit', 'focusin', 'focusout', 'load', 'unload', 'beforeunload', 'resize', 'move', 'DOMContentLoaded', 'readystatechange', 'error', 'abort', 'scroll']);
+const nativeevents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'contextmenu', 'mousewheel', 'DOMMouseScroll', 'mouseover', 'mouseout', 'mousemove', 'selectstart', 'selectend', 'keydown', 'keypress', 'keyup', 'orientationchange', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'pointerdown', 'pointermove', 'pointerup', 'pointerleave', 'pointercancel', 'gesturestart', 'gesturechange', 'gestureend', 'focus', 'blur', 'change', 'reset', 'select', 'submit', 'focusin', 'focusout', 'load', 'unload', 'beforeunload', 'resize', 'move', 'DOMContentLoaded', 'readystatechange', 'error', 'abort', 'scroll']);
 
 /**
  * Private methods
@@ -329,7 +329,7 @@ const nativeEvents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'cont
 function makeEventUid(element, uid) {
   return uid && `${uid}::${uidEvent++}` || element.uidEvent || uidEvent++;
 }
-function getElementEvents(element) {
+function getElementevents(element) {
   const uid = makeEventUid(element);
   element.uidEvent = uid;
   eventRegistry[uid] = eventRegistry[uid] || {};
@@ -375,7 +375,7 @@ function normalizeParameters(originalTypeEvent, handler, delegationFunction) {
   // TODO: tooltip passes `false` instead of selector, so we need to check
   const callable = isDelegated ? delegationFunction : handler || delegationFunction;
   let typeEvent = getTypeEvent(originalTypeEvent);
-  if (!nativeEvents.has(typeEvent)) {
+  if (!nativeevents.has(typeEvent)) {
     typeEvent = originalTypeEvent;
   }
   return [isDelegated, callable, typeEvent];
@@ -388,7 +388,7 @@ function addHandler(element, originalTypeEvent, handler, delegationFunction, one
 
   // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
   // this prevents the handler from being dispatched the same way as mouseover or mouseout does
-  if (originalTypeEvent in customEvents) {
+  if (originalTypeEvent in customevents) {
     const wrapFunction = fn => {
       return function (event) {
         if (!event.relatedTarget || event.relatedTarget !== event.delegateTarget && !event.delegateTarget.contains(event.relatedTarget)) {
@@ -398,7 +398,7 @@ function addHandler(element, originalTypeEvent, handler, delegationFunction, one
     };
     callable = wrapFunction(callable);
   }
-  const events = getElementEvents(element);
+  const events = getElementevents(element);
   const handlers = events[typeEvent] || (events[typeEvent] = {});
   const previousFunction = findHandler(handlers, callable, isDelegated ? handler : null);
   if (previousFunction) {
@@ -433,7 +433,7 @@ function removeNamespacedHandlers(element, events, typeEvent, namespace) {
 function getTypeEvent(event) {
   // allow to get the native events from namespaced events ('click.bs.button' --> 'click')
   event = event.replace(stripNameRegex, '');
-  return customEvents[event] || event;
+  return customevents[event] || event;
 }
 const EventHandler = {
   on(element, event, handler, delegationFunction) {
@@ -448,7 +448,7 @@ const EventHandler = {
     }
     const [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction);
     const inNamespace = typeEvent !== originalTypeEvent;
-    const events = getElementEvents(element);
+    const events = getElementevents(element);
     const storeElementEvent = events[typeEvent] || {};
     const isNamespace = originalTypeEvent.startsWith('.');
     if (typeof callable !== 'undefined') {
@@ -1000,8 +1000,8 @@ class Swipe extends Config {
     }
     this._config = this._getConfig(config);
     this._deltaX = 0;
-    this._supportPointerEvents = Boolean(window.PointerEvent);
-    this._initEvents();
+    this._supportPointerevents = Boolean(window.PointerEvent);
+    this._initevents();
   }
 
   // Getters
@@ -1022,7 +1022,7 @@ class Swipe extends Config {
 
   // Private
   _start(event) {
-    if (!this._supportPointerEvents) {
+    if (!this._supportPointerevents) {
       this._deltaX = event.touches[0].clientX;
       return;
     }
@@ -1052,8 +1052,8 @@ class Swipe extends Config {
     }
     execute(direction > 0 ? this._config.rightCallback : this._config.leftCallback);
   }
-  _initEvents() {
-    if (this._supportPointerEvents) {
+  _initevents() {
+    if (this._supportPointerevents) {
       EventHandler.on(this._element, EVENT_POINTERDOWN, event => this._start(event));
       EventHandler.on(this._element, EVENT_POINTERUP, event => this._end(event));
       this._element.classList.add(CLASS_NAME_POINTER_EVENT);
@@ -1064,7 +1064,7 @@ class Swipe extends Config {
     }
   }
   _eventIsPointerPenTouch(event) {
-    return this._supportPointerEvents && (event.pointerType === POINTER_TYPE_PEN || event.pointerType === POINTER_TYPE_TOUCH);
+    return this._supportPointerevents && (event.pointerType === POINTER_TYPE_PEN || event.pointerType === POINTER_TYPE_TOUCH);
   }
 
   // Static
@@ -4138,7 +4138,7 @@ class Tab extends BaseComponent {
     }
     if (nextActiveElement) {
       nextActiveElement.focus({
-        preventScroll: true
+        preventscroll: true
       });
       Tab.getOrCreateInstance(nextActiveElement).show();
     }

@@ -1,6 +1,6 @@
 /**
-* Template Name: Badminton Skibidi Event
-* Template URL: https://bootstrapmade.com/Badminton Skibidi Event-bootstrap-construction-website-template/
+* Template Name: Skibidi Badminton Competition
+* Template URL: https://bootstrapmade.com/Skibidi Badminton Competition-bootstrap-construction-website-template/
 * Updated: May 10 2024 with Bootstrap v5.3.3
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
@@ -2790,30 +2790,30 @@ section,
   background: color-mix(in srgb, var(--accent-color), transparent 20%);
 }
 
-.categories-widget ul {
+.events-widget ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.categories-widget ul li {
+.events-widget ul li {
   padding-bottom: 10px;
 }
 
-.categories-widget ul li:last-child {
+.events-widget ul li:last-child {
   padding-bottom: 0;
 }
 
-.categories-widget ul a {
+.events-widget ul a {
   color: color-mix(in srgb, var(--default-color), transparent 20%);
   transition: 0.3s;
 }
 
-.categories-widget ul a:hover {
+.events-widget ul a:hover {
   color: var(--accent-color);
 }
 
-.categories-widget ul a span {
+.events-widget ul a span {
   padding-left: 5px;
   color: color-mix(in srgb, var(--default-color), transparent 50%);
   font-size: 14px;

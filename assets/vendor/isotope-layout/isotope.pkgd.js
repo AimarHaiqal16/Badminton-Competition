@@ -205,10 +205,10 @@ proto.once = function( eventName, listener ) {
   // add event
   this.on( eventName, listener );
   // set once flag
-  // set onceEvents hash
-  var onceEvents = this._onceEvents = this._onceEvents || {};
+  // set onceevents hash
+  var onceevents = this._onceevents = this._onceevents || {};
   // set onceListeners object
-  var onceListeners = onceEvents[ eventName ] = onceEvents[ eventName ] || {};
+  var onceListeners = onceevents[ eventName ] = onceevents[ eventName ] || {};
   // set flag
   onceListeners[ listener ] = true;
 
@@ -237,7 +237,7 @@ proto.emitEvent = function( eventName, args ) {
   listeners = listeners.slice(0);
   args = args || [];
   // once stuff
-  var onceListeners = this._onceEvents && this._onceEvents[ eventName ];
+  var onceListeners = this._onceevents && this._onceevents[ eventName ];
 
   for ( var i=0; i < listeners.length; i++ ) {
     var listener = listeners[i]
@@ -258,7 +258,7 @@ proto.emitEvent = function( eventName, args ) {
 
 proto.allOff = function() {
   delete this._events;
-  delete this._onceEvents;
+  delete this._onceevents;
 };
 
 return EvEmitter;

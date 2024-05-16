@@ -105,7 +105,7 @@
       }
     }
   }
-  function getNodeEvents(node) {
+  function getNodeevents(node) {
     var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     var fn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
     var cache = node[uid] = node[uid] || [];
@@ -150,7 +150,7 @@
     }
     handler.destroy = function () {
       each(element, function (el) {
-        var events = getNodeEvents(el, eventName, handler);
+        var events = getNodeevents(el, eventName, handler);
         if (events.found) {
           events.all.splice(events.evt, 1);
         }
@@ -160,7 +160,7 @@
       });
     };
     each(element, function (el) {
-      var events = getNodeEvents(el, eventName, handler);
+      var events = getNodeevents(el, eventName, handler);
       if (el.addEventListener && avoidDuplicate && !events.found || !avoidDuplicate) {
         el.addEventListener(eventName, handler, useCapture);
         events.all.push({
@@ -557,7 +557,7 @@
       this.img = el;
       this.slide = slide;
       this.onclose = onclose;
-      if (this.img.setZoomEvents) {
+      if (this.img.setZoomevents) {
         return false;
       }
       this.active = false;
@@ -590,7 +590,7 @@
           _this.zoomOut();
         }
       }, false);
-      this.img.setZoomEvents = true;
+      this.img.setZoomevents = true;
     }
     return _createClass(ZoomImages, [{
       key: "zoomIn",
@@ -1313,7 +1313,7 @@
             if (isMobileDevice && settings.moreLength > 0) {
               slideConfig.smallDescription = this.slideShortDesc(slideConfig.description, settings.moreLength, settings.moreText);
               slideText.innerHTML = slideConfig.smallDescription;
-              this.descriptionEvents(slideText, slideConfig);
+              this.descriptionevents(slideText, slideConfig);
             } else {
               slideText.innerHTML = slideConfig.description;
             }
@@ -1395,8 +1395,8 @@
         return subString + '... <a href="#" class="desc-more">' + wordBoundary + '</a>';
       }
     }, {
-      key: "descriptionEvents",
-      value: function descriptionEvents(desc, data) {
+      key: "descriptionevents",
+      value: function descriptionevents(desc, data) {
         var _this2 = this;
         var moreLink = desc.querySelector('.desc-more');
         if (!moreLink) {
@@ -1420,7 +1420,7 @@
                   removeClass(body, 'gdesc-open');
                   addClass(body, 'gdesc-closed');
                   desc.innerHTML = data.smallDescription;
-                  _this2.descriptionEvents(desc, data);
+                  _this2.descriptionevents(desc, data);
                   setTimeout(function () {
                     removeClass(body, 'gdesc-closed');
                   }, 400);
@@ -1476,13 +1476,13 @@
     }
     return angle * 180 / Math.PI;
   }
-  var EventsHandlerAdmin = function () {
-    function EventsHandlerAdmin(el) {
-      _classCallCheck(this, EventsHandlerAdmin);
+  var eventsHandlerAdmin = function () {
+    function eventsHandlerAdmin(el) {
+      _classCallCheck(this, eventsHandlerAdmin);
       this.handlers = [];
       this.el = el;
     }
-    return _createClass(EventsHandlerAdmin, [{
+    return _createClass(eventsHandlerAdmin, [{
       key: "add",
       value: function add(handler) {
         this.handlers.push(handler);
@@ -1512,13 +1512,13 @@
     }]);
   }();
   function wrapFunc(el, handler) {
-    var EventshandlerAdmin = new EventsHandlerAdmin(el);
-    EventshandlerAdmin.add(handler);
-    return EventshandlerAdmin;
+    var eventshandlerAdmin = new eventsHandlerAdmin(el);
+    eventshandlerAdmin.add(handler);
+    return eventshandlerAdmin;
   }
-  var TouchEvents = function () {
-    function TouchEvents(el, option) {
-      _classCallCheck(this, TouchEvents);
+  var Touchevents = function () {
+    function Touchevents(el, option) {
+      _classCallCheck(this, Touchevents);
       this.element = typeof el == 'string' ? document.querySelector(el) : el;
       this.start = this.start.bind(this);
       this.move = this.move.bind(this);
@@ -1567,7 +1567,7 @@
         y: null
       };
     }
-    return _createClass(TouchEvents, [{
+    return _createClass(Touchevents, [{
       key: "start",
       value: function start(evt) {
         if (!evt.touches) {
@@ -1855,7 +1855,7 @@
     var isInlined;
     var sliderWrapper = document.getElementById('glightbox-slider');
     var overlay = document.querySelector('.goverlay');
-    var touchInstance = new TouchEvents(sliderWrapper, {
+    var touchInstance = new Touchevents(sliderWrapper, {
       touchStart: function touchStart(e) {
         process = true;
         if (hasClass(e.targetTouches[0].target, 'ginner-container') || closest(e.targetTouches[0].target, '.gslide-desc') || e.targetTouches[0].target.nodeName.toLowerCase() == 'a') {
@@ -2142,7 +2142,7 @@
       this.settings = extend(defaults, options);
       this.effectsClasses = this.getAnimationClasses();
       this.videoPlayers = {};
-      this.apiEvents = [];
+      this.apievents = [];
       this.fullElementsList = false;
     }
     return _createClass(GlightboxInit, [{
@@ -2151,7 +2151,7 @@
         var _this = this;
         var selector = this.getSelector();
         if (selector) {
-          this.baseEvents = addEvent('click', {
+          this.baseevents = addEvent('click', {
             onElement: selector,
             withCallback: function withCallback(e, target) {
               e.preventDefault();
@@ -3021,9 +3021,9 @@
       key: "destroy",
       value: function destroy() {
         this.close();
-        this.clearAllEvents();
-        if (this.baseEvents) {
-          this.baseEvents.destroy();
+        this.clearAllevents();
+        if (this.baseevents) {
+          this.baseevents.destroy();
         }
       }
     }, {
@@ -3033,7 +3033,7 @@
         if (!evt || !isFunction(callback)) {
           throw new TypeError('Event name and callback must be defined');
         }
-        this.apiEvents.push({
+        this.apievents.push({
           evt: evt,
           once: once,
           callback: callback
@@ -3050,7 +3050,7 @@
         var _this9 = this;
         var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
         var onceTriggered = [];
-        each(this.apiEvents, function (event, i) {
+        each(this.apievents, function (event, i) {
           var evt = event.evt,
             once = event.once,
             callback = event.callback;
@@ -3063,14 +3063,14 @@
         });
         if (onceTriggered.length) {
           each(onceTriggered, function (i) {
-            return _this9.apiEvents.splice(i, 1);
+            return _this9.apievents.splice(i, 1);
           });
         }
       }
     }, {
-      key: "clearAllEvents",
-      value: function clearAllEvents() {
-        this.apiEvents.splice(0, this.apiEvents.length);
+      key: "clearAllevents",
+      value: function clearAllevents() {
+        this.apievents.splice(0, this.apievents.length);
       }
     }, {
       key: "version",

@@ -1,6 +1,6 @@
 /**
-* Template Name: Badminton Skibidi Event
-* Template URL: https://bootstrapmade.com/Badminton Skibidi Event-bootstrap-construction-website-template/
+* Template Name: Skibidi Badminton Competition
+* Template URL: https://bootstrapmade.com/Skibidi Badminton Competition-bootstrap-construction-website-template/
 * Updated: May 10 2024 with Bootstrap v5.3.3
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
