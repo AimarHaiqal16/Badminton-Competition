@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Homepage</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="assets\css">
     <style>
        /* Importing the Roboto font from Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
@@ -12,8 +12,8 @@
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f0f8ff;
-            background-image: url('C:/wamp64/www/Admin 224/shuttlecock background.jpg'); /* Add your background image path here */
-            background-size: cover; /* Cover the entire viewport */
+            background-image: url('C:\wamp64\www\Group11WebProgProject\Badminton-Competition\assets\img\WIN_20220903_21_30_26_Pro.jpg'); /* Add your background image path here */
+            /* Cover the entire viewport */
             background-position: center; /* Center the image */
             background-attachment: fixed; /* Fix the background image */
             color: #333;
