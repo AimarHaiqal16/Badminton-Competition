@@ -1,8 +1,7 @@
 <html>
 <body>
 <?php
-$con=mysqli_connect("localhost", "root", "","badmintonevent") or die("Cannot connect to
-server.".mysqli_error($con));
+$con=mysqli_connect("localhost", "root", "","badmintonevent(1)") or die("Cannot connect to server.".mysqli_error($con));
 
  $username=@$_POST["username"];
  $password=@$_POST["pass"];
@@ -21,7 +20,7 @@ server.".mysqli_error($con));
  }
  else{
      if($password == $confirmpassword){
-         $query = "INSERT INTO users VALUES(null,'$username','$password','$email', '$f_name', '$p_num','null','$gender')";
+         $query = "INSERT INTO users VALUES(null,'$username','$password','$email', '$f_name', '$p_num', '$gender')";
      mysqli_query($con,$query);
      echo
      "<script> alert('Registration Succesful');</script>";

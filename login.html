@@ -79,11 +79,11 @@
 
      <div class="container mt-5">
     <!-- Login Section -->
-    <form>
-      <!-- Email input -->
+    <form name="form1" method="post" action="loginprocess.php" >
+      <!-- Username input -->
       <div data-mdb-input-init class="form-outline mb-4">
-        <input type="email" id="form2Example1" class="form-control" />
-        <label class="form-label" for="form2Example1">Email address</label>
+        <input type="username" id="form2Example1" class="form-control" />
+        <label class="form-label" for="form2Example1">Username</label>
       </div>
 
       <!-- Password input -->
@@ -102,8 +102,7 @@
       </div>
 
       <!-- Submit button -->
-      <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign
-        in</button>
+      <input type="submit" value="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4" />
 
       <!-- Register buttons -->
       <div class="text-center">

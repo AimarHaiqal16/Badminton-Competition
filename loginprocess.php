@@ -4,7 +4,7 @@
 </head>
 <body>
 <?php
-$con=mysqli_connect("localhost", "root", "","badmintonevent") or die("Cannot connect to server");
+$con=mysqli_connect("localhost", "root", "","badmintonevent(1)") or die("Cannot connect to server");
 $username=@$_POST["username"];
 $password=@$_POST["pass"];
 $sql="SELECT * FROM users WHERE username='$username'";
@@ -17,10 +17,11 @@ else
     $row=mysqli_fetch_array($result,MYSQLI_BOTH);
     if($row["password"] ==$password)
     {
-        session_start();
-        $_SESSION["username"]= $username;
+       // session_start();
+        //$_SESSION["username"]= $username;
         //go to userindex.php page
-        header("Location:userindex.php");
+        //header("Location:userindex.php");
+        echo "Success";
     }
     else
     echo "Password wrong";
