@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Title</title>
+    <title>User Profile</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,7 +16,7 @@ session_start();
 $user = isset($_SESSION["username"]) ? $_SESSION["username"] : null; // Check if the session variable is set
 
 if ($user) {
-    echo "Welcome $user";
+    //echo "Welcome $user";
     // User profile content goes here
     // You can fetch and display user-specific information from the database or session
     ?>
