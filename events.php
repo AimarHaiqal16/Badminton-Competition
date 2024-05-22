@@ -1,3 +1,18 @@
+<?php
+$con = mysqli_connect("localhost", "root", "", "badmintonevent") or die("Cannot connect to server");
+
+$sql = "SELECT * FROM events";
+$result = $con->query($sql);
+if ($result->num_rows > 0) {
+  // Output data of each row
+  while($row = $result->fetch_assoc()) {
+      $events[]=$row["event_name"];
+  }
+} else {
+  echo "0 results";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -183,45 +198,15 @@
             <h3>Pick a Category!</h3>
             <p>Participants can choose to enter more than one category, so go ahead and join!</p>
 
-            <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="300">
-              <i>>>></i>
-              <div>
-                <br>
-                <h4><a href="" class="stretched-link">Men's Singles</a></h4>
-              </div>
-            </div><!-- End Icon Box -->
+            <div id="eventButtonsContainer" class="d-flex flex-column"></div>
 
-            <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="300">
-              <i>>>></i>
-              <div>
-                <br>
-                <h4><a href="" class="stretched-link">Women's Singles</a></h4>
-              </div>
-            </div><!-- End Icon Box -->
-
-            <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="300">
-              <i>>>></i>
-              <div>
-                <br>
-                <h4><a href="" class="stretched-link">Men's Doubles</a></h4>
-              </div>
-            </div><!-- End Icon Box -->
-
-            <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="300">
-              <i>>>></i>
-              <div>
-                <br>
-                <h4><a href="" class="stretched-link">Women's Doubles</a></h4>
-              </div>
-            </div><!-- End Icon Box -->
-
-            <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="300">
-              <i>>>></i>
-              <div>
-                <br>
-                <h4><a href="" class="stretched-link">Mixed Doubles</a></h4>
-              </div>
-            </div><!-- End Icon Box -->
+            <div class="info d-flex align-items-center">
+              
+        <div class="container">
+            <p>Please login first before applying any category.</p>
+            <a href="login.html" class="btn-get-started">Get Started</a>
+        </div>
+      </div>
 
           </div>
         </div>
@@ -615,6 +600,80 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script>
+    var eventNames = <?php echo json_encode($events); ?>;
+    var isLoggedIn = <?php echo json_encode($is_logged_in); ?>;
+    var loginUrl = '/login.php'; // Replace with your actual login URL
+
+    console.log(eventNames);
+
+    // Get the container where the event buttons will be added
+    var container = document.getElementById('event-container');
+
+    // Loop through each event name and create the corresponding HTML
+    eventNames.forEach(function(eventName) {
+      // Create the icon-box div
+      var iconBox = document.createElement('div');
+      iconBox.className = 'icon-box';
+      iconBox.setAttribute('data-aos', 'fade-up');
+      iconBox.setAttribute('data-aos-delay', '300');
+
+      // Create the icon element
+      var icon = document.createElement('i');
+      icon.textContent = '>>>>';
+
+      // Create the inner div
+      var innerDiv = document.createElement('div');
+
+      // Create the br element
+      var br = document.createElement('br');
+
+      // Create the h4 element
+      var h4 = document.createElement('h4');
+
+      // Create the link
+      var link = document.createElement('a');
+      link.href = 'javascript:void(0);'; // Prevent default link behavior
+      link.className = 'stretched-link';
+      link.textContent = eventName;
+      link.addEventListener('click', function() {
+        if (isLoggedIn) {
+          // Logic for applying to the category
+          alert('You have applied for ' + eventName); // Replace with actual application logic
+        } else {
+          // Show the login popup
+          document.getElementById('popup-overlay').style.display = 'block';
+          document.getElementById('login-popup').style.display = 'block';
+        }
+      });
+
+      // Append the link to the h4
+      h4.appendChild(link);
+
+      // Append the br and h4 to the inner div
+      innerDiv.appendChild(br);
+      innerDiv.appendChild(h4);
+
+      // Append the icon and inner div to the icon-box
+      iconBox.appendChild(icon);
+      iconBox.appendChild(innerDiv);
+
+      // Append the icon-box to the container
+      container.appendChild(iconBox);
+    });
+
+    // Handle login button click
+    document.getElementById('login-button').addEventListener('click', function() {
+      window.location.href = loginUrl;
+    });
+
+    // Close popup when clicking outside
+    document.getElementById('popup-overlay').addEventListener('click', function() {
+      document.getElementById('popup-overlay').style.display = 'none';
+      document.getElementById('login-popup').style.display = 'none';
+    });
+  </script>
 
 </body>
 
