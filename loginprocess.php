@@ -4,7 +4,7 @@
 </head>
 <body>
 <?php
-$con=mysqli_connect("localhost", "root", "","badmintonevent(1)") or die("Cannot connect to server");
+$con=mysqli_connect("localhost", "root", "","badmintonevent") or die("Cannot connect to server");
 $username=@$_POST["username"];
 $password=@$_POST["pass"];
 $sql="SELECT * FROM users WHERE username='$username'";

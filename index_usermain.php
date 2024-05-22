@@ -53,7 +53,7 @@ session_start();
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="index_user.html" class="active">Home</a></li>
-          <li><a href="events.html">Categories</a></li>
+          <li><a href="events_user.php">Categories</a></li>
           <li><a href="contact.html">Contact</a></li>
           <li><a href="userindex.php">User Profile</a></li>
         </ul>
