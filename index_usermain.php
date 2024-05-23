@@ -74,7 +74,7 @@ session_start();
             <div class="col-lg-6 text-center">
               <h2 class="">Welcome to our Badminton Competition!</h2>
               <p>Do you think you have what it takes to be a champion? Then join our competition, where the best of the best would duke it out to be the ultimate winner!</p>
-              <a href="login.html" class="btn-get-started">Get Started</a>
+              <a href="events_user.php" class="btn-get-started">Get Started</a>
             </div>
           </div>
         </div>
@@ -147,7 +147,7 @@ session_start();
             <p><span>aimarhaiqal16@yahoo.com</span></p>
           </ul>
         </div>
-        
+
       </div>
     </div>
 

@@ -3,7 +3,7 @@
 <?php
 session_start();
 $user = isset($_SESSION["username"]) ? $_SESSION["username"] : null;
-$con=mysqli_connect("localhost", "root","","badmintonevent(1)") or die("Cannot connect to server.".mysqli_error($con));
+$con=mysqli_connect("localhost", "root","","badmintonevent") or die("Cannot connect to server.".mysqli_error($con));
 
 $f_name=$_POST["f_name"];
 $email=$_POST["email"];

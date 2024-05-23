@@ -230,9 +230,6 @@
                 <li><a href="view_users.php">Registered Participants</a></li>
             </ul>
         </nav>
-        <div class="content">
-            <!-- Additional content can be added here -->
-        </div>
     </div>
 </body>
 </html>

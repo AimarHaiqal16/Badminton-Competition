@@ -19,20 +19,20 @@ if($user==$row[1])
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
+<meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Blog - Skibidi Badminton Competition Bootstrap Template</title>
+  <title>Skibidi Badminton Competition</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="assets/img/logo.png" rel="icon">
+  <link href="assets/img/logo.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -49,20 +49,21 @@ if($user==$row[1])
 
 <body class="blog-page">
 
-  <header id="header" class="header d-flex align-items-center fixed-top">
+<header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center text-decoration-none">
-        <h1 class="sitename mb-0">Skibidi Badminton Competition</h1>
+      <a href="index.html" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <img src="assets/img/logo.png" alt="">
+        <h1 class="sitename">Skibidi Badminton Competition</h1> <span>.</span>
       </a>
 
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="index_usermain.php">Home</a></li>
-          <!--<li><a href="admins.html">Admin</a></li>-->
           <li><a href="events_user.php">Categories</a></li>
-          <li><a href="userindex.php">User Profile</a></li>
-          <li><a href="logout_user.php">Logut</a></li>
+          <li><a href="userindex.php" class="active">User Profile</a></li>
+          <li><a href="logout_user.php">Logout</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
@@ -73,9 +74,14 @@ if($user==$row[1])
   <main class="main">
 
     <!-- Page Title -->
-    <div class="page-title" data-aos="fade" style="background-image: url(assets/img/page-title-bg.jpg);">
+    <div class="page-title" data-aos="fade" style="background-image: url(assets/img/womenssingles.jpg);">
       <div class="container position-relative">
+        <h1>User Profile</h1>
         <nav class="breadcrumbs">
+          <ol>
+            <li><a href="index.html">Home</a></li>
+            <li class="current">User Profile</li>
+          </ol>
         </nav>
       </div>
     </div><!-- End Page Title -->
@@ -84,18 +90,17 @@ if($user==$row[1])
         <!-- View User Profile -->
     <br><br>
         <div class="container">
-    <h1>User Profile</h1>
     <div class="row">
         <div class="col-md-6">
-            <label for="userID">User ID:</label>
-            <textarea id="userID" name="id" class="form-control" rows="1" readonly><?php echo $row[0]; ?></textarea>
 
             <label for="username">Username:</label>
             <textarea id="username" name="un" class="form-control" rows="1" readonly><?php echo $row[1]; ?></textarea>
 
             <label for="password">Password:</label>
-<input type="password" id="password" name="add" class="form-control" value="<?php echo htmlspecialchars($row[2]); ?>" readonly>
+            <input type="password" id="password" name="add" class="form-control" value="<?php echo htmlspecialchars($row[2]); ?>" readonly>
 
+            <label for="gender">Gender:</label>
+            <textarea id="gender" name="add" class="form-control" rows="1" readonly><?php echo $row[6]; ?></textarea>
         </div>
         <div class="col-md-6">
             <label for="email">Email:</label>
@@ -109,12 +114,6 @@ if($user==$row[1])
         </div>
     </div>
     <br>
-    <div class="row">
-        <div class="col-md-6">
-            <label for="gender">Gender:</label>
-            <textarea id="gender" name="add" class="form-control" rows="1" readonly><?php echo $row[6]; ?></textarea>
-        </div>
-    </div>
 </div>
 <?php
 }
@@ -138,12 +137,11 @@ if ($result3->num_rows > 0) {
     }
 ?>
 <div class="container">
-        <div> Your Registered Event : <br><br> </div>
+        <div> Your Registered Events : <br><br> </div>
         <table class="table table-striped">
   <thead>
     <tr>
       <th scope="col">Event Name</th>
-      <th scope="col">Event ID</th>
     </tr>
   </thead>
     <tbody>
@@ -162,13 +160,13 @@ if ($result3->num_rows > 0) {
                         }
                         ?>
                 </td>
-                        <td><?= $user['event_id'] ?></td>
                    
                     </tr>
                 <?php endforeach; ?>
         </tbody>
     </table>
-    <br> <a class="btn btn-primary" href="edit_user_profile.php" role="button">Edit Profile</a> <br>
+    <br> <a  href="edit_user_profile.php" role="button" background-color= "#feb900";>Edit Profile</a> <br>
+    <br></br>
 </div>
 <?php
 } else {
@@ -196,6 +194,54 @@ if ($result3->num_rows > 0) {
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <footer id="footer" class="footer">
+
+<div class="container footer-top">
+  <div class="row gy-4">
+    <div class="col-lg-4 col-md-6 footer-about">
+      <a href="index.html" class="logo d-flex align-items-center">
+        <span class="sitename">Skibidi Badminton Competition</span>
+      </a>
+      <div class="footer-contact pt-3">
+        <p><strong>Address:</strong></p>
+        <p>TNB INTEGRATED LEARNING SOLUTION SDN BHD</p>
+        <p>KM 7, Jalan Ikram-Uniten, Institut Latihan Sultan Ahmad Shah</p>
+        <p>43009 Kajang, Selangor</p>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-3 footer-links">
+      <h4> <br><br>  </h4>
+      <ul>
+        <p><strong>Phone:</strong></p>
+        <p><span>+601 1545 9436</span></p>
+      </ul>
+    </div>
+
+    <div class="col-lg-2 col-md-3 footer-links">
+      <h4> <br><br>  </h4>
+      <ul>
+        <p><strong>Email:</strong> </p>
+        <p><span>aimarhaiqal16@yahoo.com</span></p>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<div class="container copyright text-center mt-4">
+  <p>© <span>Copyright</span> <strong class="px-1 sitename">Skibidi</strong> <span>All Rights Reserved</span></p>
+  <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you've purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+  </div>
+</div>
+
+</footer>
 
 </body>
 
