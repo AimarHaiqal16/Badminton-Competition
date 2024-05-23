@@ -155,7 +155,7 @@ if ($is_logged_in) {
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="index_username.php">Home</a></li>
+          <li><a href="index_usermain.php">Home</a></li>
           <li><a href="events_user.php" class="active">Categories</a></li>
           <li><a href="userindex.php">User Profile</a></li>
         </ul>
