@@ -280,7 +280,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search_term'])) {
 </head>
 <body>
     <header>
-        <h1>Participants</h1>
+        <h1>Registered Participants</h1>
         <p>Skibidi Badminton Competition</p>
         <a class="home-button" href="index.php">Home</a>
     </header>
