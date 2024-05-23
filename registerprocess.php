@@ -23,11 +23,17 @@ $con=mysqli_connect("localhost", "root", "","badmintonevent") or die("Cannot con
          $query = "INSERT INTO users VALUES(null,'$username','$password','$email', '$f_name', '$p_num', '$gender')";
      mysqli_query($con,$query);
      echo
-     "<script> alert('Registration Succesful');</script>";
+     "<script>
+     alert('Registration Succesful');
+     window.location.href='login.html';
+     </script>";
      }
      else{
          echo 
-         "<script> alert('Password Does Not Match');</script>";
+         "<script> 
+         alert('Password Does Not Match');
+         window.location.href='user_reg.html';
+         </script>";
      }
  }
 ?>
