@@ -5,10 +5,12 @@ $message = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $event_name = $_POST['event_name'];
     $quota = $_POST['quota'];
-    if (!empty($event_name) && !empty($quota)) {
-        $sql = "INSERT INTO events (event_name, quota) VALUES (?, ?)";
+    $gender = $_POST['gender']; // Get the gender value from the form
+
+    if (!empty($event_name) && !empty($quota) && !empty($gender)) {
+        $sql = "INSERT INTO events (event_name, quota, gender) VALUES (?, ?, ?)";
         $stmt = $con->prepare($sql);
-        $stmt->bind_param("si", $event_name, $quota);
+        $stmt->bind_param("sis", $event_name, $quota, $gender);
         if ($stmt->execute()) {
             $message = "Event '$event_name' added successfully.";
         } else {
@@ -38,9 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .container {
             width: 80%;
-            margin: 0 auto;
+            max-width: 600px;
+            margin: 20px auto;
             padding: 20px;
             background-color: #fff;
+            border-radius: 10px;
             border: 1px solid #ddd;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -79,6 +83,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
+        }
+
+        form input[type="radio"] {
+            margin-right: 5px;
         }
 
         form button {
@@ -131,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .popup-content {
             background-color: #fff;
             padding: 20px;
-            border-radius: 5px;
+            border-radius: 10px;
             text-align: center;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -177,8 +185,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <header>
         <h1>Add New Event</h1>
-		<p>Skibidi Badminton Competition</p>
-		<a class="home-button" href="index.php">Home</a>
+        <p>Skibidi Badminton Competition</p>
+        <a class="home-button" href="index.php">Home</a>
     </header>
     <div class="container">
         <form method="POST">
@@ -186,9 +194,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="text" id="event_name" name="event_name" required>
             <label for="quota">Quota:</label>
             <input type="number" id="quota" name="quota" required>
-            <button type="submit">Add Event</button>
+            <label for="gender">Gender:</label>
+            <div>
+                <input type="radio" id="male" name="gender" value="Male" required>
+                <label for="male">Male</label>
+                <input type="radio" id="female" name="gender" value="Female" required>
+                <label for="female">Female</label>
+                <input type="radio" id="mixed" name="gender" value="Mixed" required>
+                <label for="mixed">Mixed</label>
+            </div>
+            <p><p><button type="submit">Add Event</button></p></p>
         </form>
-        
     </div>
 
     <div id="popup" class="popup">
