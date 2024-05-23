@@ -55,6 +55,7 @@ session_start();
           <li><a href="index_usermain.php" class="active">Home</a></li>
           <li><a href="events_user.php">Categories</a></li>
           <li><a href="userindex.php">User Profile</a></li>
+          <li><a href="logout_user.php">Logout</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>

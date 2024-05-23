@@ -59,6 +59,7 @@ $row=mysqli_fetch_array($result,MYSQLI_NUM);
                 <div class="form-group text-center">
                   <button type="submit" name="update" class="btn btn-primary">Update</button>
                   <button type="reset" class="btn btn-secondary">Reset</button>
+                  <a class="btn btn-primary" href="userindex.php" role="button">Back to Profile</a>
                 </div>
               </form>
             </div>
