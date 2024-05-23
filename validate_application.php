@@ -18,9 +18,9 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    if ($event_gender != 'mixed' && $user_gender != $event_gender) {
-        $gender_label = $user_gender == 'male' ? 'male' : 'female';
-        echo json_encode(['success' => false, 'message' => "You can't apply for this event because it doesn't match your gender."]);
+    if ($event_gender != 'Mixed' && $user_gender != $event_gender) {
+        $gender_label = $user_gender == 'Male' ? 'male' : 'female';
+        echo json_encode(['success' => false, 'message' => "You can't apply for this event because you are " .$gender_label. "."]);
         exit;
     }
     
