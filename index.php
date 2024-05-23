@@ -5,7 +5,7 @@
     <title>Admin Homepage</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-       /* Importing the Roboto font from Google Fonts */
+        /* Importing the Roboto font from Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
         /* General Styles */
@@ -41,11 +41,34 @@
             padding: 20px;
             text-align: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
             margin-bottom: 20px;
+			
         }
 
         header h1 {
             margin: 0;
+        }
+
+        /* Logout Button */
+        .logout-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #ffdd57; /* Yellow */
+            color: #003366; /* Dark Blue */
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+            text-decoration: none;
+           
+        }
+
+        .logout-button:hover {
+            background-color: #003366; /* Dark Blue */
+            color: #ffdd57; /* Yellow */
         }
 
         /* Navigation */
@@ -69,9 +92,11 @@
 
         nav ul li a {
             display: block;
-            padding: 15px 20px;
+            padding: 20px 30px; /* Increased padding */
             text-decoration: none;
             color: #ffdd57; /* Yellow */
+            font-size: 18px; /* Increased font size */
+            font-weight: bold; /* Added bold font */
             transition: background-color 0.3s, color 0.3s;
         }
 
@@ -176,7 +201,13 @@
             }
 
             nav ul li a {
-                padding: 10px 15px;
+                padding: 15px 20px; /* Adjusted padding for smaller screens */
+                font-size: 16px; /* Adjusted font size for smaller screens */
+            }
+
+            .logout-button {
+                padding: 8px 15px; /* Adjusted padding for smaller screens */
+                font-size: 14px; /* Adjusted font size for smaller screens */
             }
 
             form input[type="text"] {
@@ -186,29 +217,22 @@
     </style>
 </head>
 <body>
-
-
-    </style>
-</head>
-<body>
     <header>
         <h1>Admin Homepage</h1>
-		<p>Skibidi Badminton Competition</p>
+        <p>Skibidi Badminton Competition</p>
+        <a class="logout-button" href="logout.php">Logout</a>
     </header>
     <div class="container">
         <nav>
             <ul>
                 <li><a href="add_event.php">Add New Event</a></li>
-				<li><a href="set_quotas.php">Set Event Quotas</a></li>
-                <li><a href="view_users.php">View and Search Registered Participants</a></li>
-                <li><a href="delete_users.php">Delete Participant</a></li>
-				<li><a href="logout.php">Logout</a></li>
+                <li><a href="set_quotas.php">Set Event Quotas</a></li>
+                <li><a href="view_users.php">Registered Participants</a></li>
             </ul>
         </nav>
         <div class="content">
-            
+            <!-- Additional content can be added here -->
         </div>
     </div>
 </body>
 </html>
-

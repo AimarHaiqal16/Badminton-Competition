@@ -2,7 +2,34 @@
 $con = mysqli_connect("localhost", "root", "", "badmintonevent") or die("Cannot connect to server");
 
 $users = [];
-$message = "";
+$message = '';
+
+// Handle the deletion
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_user_id'])) {
+    $user_id = $_POST['delete_user_id'];
+    if (!empty($user_id)) {
+        // Delete related rows in the applications table
+        $sql = "DELETE FROM applications WHERE user_id = ?";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        if ($stmt->execute()) {
+            // Then, delete the user
+            $sql = "DELETE FROM users WHERE user_id = ?";
+            $stmt = $con->prepare($sql);
+            $stmt->bind_param("i", $user_id);
+            if ($stmt->execute()) {
+                $message = "User with ID '$user_id' deleted successfully.";
+            } else {
+                $message = "Error deleting user.";
+            }
+        } else {
+            $message = "Error deleting user applications.";
+        }
+        $stmt->close();
+    } else {
+        $message = "Please provide a user ID.";
+    }
+}
 
 // Check if the search form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search_term'])) {
@@ -48,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search_term'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>View and Search Users</title>
+    <title>View, Search, and Delete Users</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         body {
@@ -186,7 +213,70 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search_term'])) {
                 width: calc(100% - 20px);
             }
         }
+
+        /* Popup */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .popup-content h2 {
+            margin-top: 0;
+            color: #003366;
+        }
+
+        .popup-content p {
+            color: #333;
+        }
+
+        .popup-content button {
+            background-color: #003366;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .popup-content button:hover {
+            background-color: #ffdd57;
+            color: #003366;
+        }
     </style>
+    <script>
+        function showPopup(message) {
+            document.getElementById('popup-message').innerText = message;
+            document.getElementById('popup').style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+
+        <?php if (!empty($message)): ?>
+        window.onload = function() {
+            showPopup("<?= $message ?>");
+        }
+        <?php endif; ?>
+    </script>
 </head>
 <body>
     <header>
@@ -213,6 +303,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search_term'])) {
                     <th>Phone Number</th>
                     <th>Gender</th>
                     <th>Event Name</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -226,10 +317,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search_term'])) {
                         <td><?= $user['phone_num'] ?></td>
                         <td><?= $user['gender'] ?></td>
                         <td><?= $user['event_name'] ?></td>
+                        <td>
+                            <form method="POST" style="display:inline;">
+                                <input type="hidden" name="delete_user_id" value="<?= $user['user_id'] ?>">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
+
+    <!-- Popup -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <h2>Notification</h2>
+            <p id="popup-message"></p>
+            <button onclick="closePopup()">OK</button>
+        </div>
+    </div>
 </body>
 </html>
+<?php $con->close(); ?>
