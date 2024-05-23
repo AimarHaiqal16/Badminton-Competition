@@ -39,15 +39,15 @@ if ($is_logged_in) {
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
+<meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>About - Skibidi Badminton Competition Bootstrap Template</title>
+  <title>Skibidi Badminton Competition</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="assets/img/logo.png" rel="icon">
+  <link href="assets/img/logo.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -64,14 +64,6 @@ if ($is_logged_in) {
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: Skibidi Badminton Competition
-  * Template URL: https://bootstrapmade.com/Skibidi Badminton Competition-bootstrap-construction-website-template/
-  * Updated: May 10 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 
   <style>
     .icon-box {
@@ -168,7 +160,7 @@ if ($is_logged_in) {
   <main class="main">
 
     <!-- Page Title -->
-    <div class="page-title" data-aos="fade" style="background-image: url(assets/img/WIN_20220903_21_30_26_Pro.jpg);">
+    <div class="page-title" data-aos="fade" style="background-image: url(assets/img/menssingles1.jpg);">
       <div class="container position-relative">
         <h1>Categories</h1>
         <nav class="breadcrumbs">
