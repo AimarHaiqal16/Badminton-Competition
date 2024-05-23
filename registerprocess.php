@@ -1,7 +1,7 @@
 <html>
 <body>
 <?php
-$con=mysqli_connect("localhost", "root", "","badmintonevent(1)") or die("Cannot connect to server.".mysqli_error($con));
+$con=mysqli_connect("localhost", "root", "","badmintonevent") or die("Cannot connect to server.".mysqli_error($con));
 
  $username=@$_POST["username"];
  $password=@$_POST["pass"];

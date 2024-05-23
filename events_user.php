@@ -1,35 +1,38 @@
 <?php
-$con = mysqli_connect("localhost", "root", "", "badmintonevent") or die("Cannot connect to server");
+session_start();
 
-$sql = "SELECT * FROM events";
-$result = $con->query($sql);
-if ($result->num_rows > 0) {
-  // Output data of each row
-  while($row = $result->fetch_assoc()) {
-      $events[]=$row["event_name"];
-  }
-} else {
-  echo "0 results";
+// Check if user is logged in
+$is_logged_in = isset($_SESSION['user_id']);
+$user_id = $_SESSION['user_id'] ?? null;
+
+// Database connection settings
+$host = 'localhost';
+$db = 'badmintonevent';
+$user = 'root';
+$pass = '';
+
+// Create a new PDO instance
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Could not connect to the database: " . $e->getMessage());
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $event_name = $_POST['event_name'];
-    $quota = $_POST['quota'];
-    if (!empty($event_name) && !empty($quota)) {
-        $sql = "INSERT INTO events (event_name, quota) VALUES (?, ?)";
-        $stmt = $con->prepare($sql);
-        $stmt->bind_param("si", $event_name, $quota);
-        if ($stmt->execute()) {
-            $message = "Event '$event_name' added successfully.";
-        } else {
-            $message = "Error adding event.";
-        }
-        $stmt->close();
-    } else {
-        $message = "Please fill in all fields.";
-    }
+// Fetch events from the database
+$events = [];
+$stmt = $pdo->query('SELECT event_id, event_name, quota, gender FROM events');
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $events[] = $row;
 }
 
+// Fetch user details if logged in
+$user = null;
+if ($is_logged_in) {
+    $stmt = $pdo->prepare('SELECT gender FROM users WHERE user_id = ?');
+    $stmt->execute([$user_id]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+}
 ?>
 
 <!DOCTYPE html>
@@ -69,6 +72,74 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
+  <style>
+    .icon-box {
+      display: flex;
+      position: relative;
+      margin-bottom: 10px;
+    }
+    .icon-box i {
+      margin-right: 10px;
+    }
+    .icon-box h4 {
+      margin: 0;
+    }
+    .stretched-link {
+      text-decoration: none;
+      color: yellow;
+      cursor: pointer;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 10px;
+      padding: 20px;
+      background: white;
+      color: black;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+    .main-container {
+      display: flex;
+      justify-content: space-between;
+    }
+    .main-content {
+      flex: 1;
+      margin-right: 20px;
+    }
+    .categories-container {
+      width: 300px;
+    }
+    .popup-buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .popup-buttons button {
+      margin: 0 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #feb900;
+      color: black;
+      cursor: pointer;
+    }
+  </style>
+
 </head>
 
 <body class="about-page">
@@ -109,101 +180,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       </div>
     </div><!-- End Page Title -->
 
-    <!-- About Section 
-    <section id="about" class="about section">
 
-      <div class="container">
 
-        <div class="row position-relative">
 
-          <div class="col-lg-7 about-img" data-aos="zoom-out" data-aos-delay="200"><img src="assets/img/about.jpg"></div>
-
-          <div class="col-lg-7" data-aos="fade-up" data-aos-delay="100">
-            <h2 class="inner-title">Consequatur eius et magnam</h2>
-            <div class="our-story">
-              <h4>Est 1988</h4>
-              <h3>Our Story</h3>
-              <p>Inventore aliquam beatae at et id alias. Ipsa dolores amet consequuntur minima quia maxime autem. Quidem id sed ratione. Tenetur provident autem in reiciendis rerum at dolor. Aliquam consectetur laudantium temporibus dicta minus dolor.</p>
-              <ul>
-                <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commo</span></li>
-                <li><i class="bi bi-check-circle"></i> <span>Duis aute irure dolor in reprehenderit in</span></li>
-                <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea</span></li>
-              </ul>
-              <p>Vitae autem velit excepturi fugit. Animi ad non. Eligendi et non nesciunt suscipit repellendus porro in quo eveniet. Molestias in maxime doloremque.</p>
-
-              <div class="watch-video d-flex align-items-center position-relative">
-                <i class="bi bi-play-circle"></i>
-                <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox stretched-link">Watch Video</a>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-    </section><!-- /About Section -->
-
-    <!-- Stats Counter Section 
-    <section id="stats-counter" class="stats-counter section">
-
-      <!-- Section Title 
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Stats</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title 
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item d-flex align-items-center w-100 h-100">
-              <i class="bi bi-emoji-smile color-blue flex-shrink-0"></i>
-              <div>
-                <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Happy Clients</p>
-              </div>
-            </div>
-          </div><!-- End Stats Item 
-
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item d-flex align-items-center w-100 h-100">
-              <i class="bi bi-journal-richtext color-orange flex-shrink-0"></i>
-              <div>
-                <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Projects</p>
-              </div>
-            </div>
-          </div><!-- End Stats Item 
-
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item d-flex align-items-center w-100 h-100">
-              <i class="bi bi-headset color-green flex-shrink-0"></i>
-              <div>
-                <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Hours Of Support</p>
-              </div>
-            </div>
-          </div><!-- End Stats Item 
-
-          <div class="col-lg-3 col-md-6">
-            <div class="stats-item d-flex align-items-center w-100 h-100">
-              <i class="bi bi-people color-pink flex-shrink-0"></i>
-              <div>
-                <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Hard Workers</p>
-              </div>
-            </div>
-          </div><!-- End Stats Item 
-
-        </div>
-
-      </div>
-
-    </section><!-- /Stats Counter Section -->
-
-    <!-- Alt Services Section -->
     <section id="alt-services" class="alt-services section">
 
       <div class="container">
@@ -220,333 +199,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
       </div>
-
-      <div id="popup" class="popup">
-        <div class="popup-content">
-            <h2>Notification</h2>
-            <p id="popup-message"></p>
-            <button onclick="closePopup()">OK</button>
-        </div>
-    </div>
       
-    </section><!-- /Alt Services Section -->
-
-    <!-- Alt Services 2 Section 
-    <section id="alt-services-2" class="alt-services-2 section">
-
-      <div class="container">
-
-        <div class="row justify-content-around gy-4">
-
-          <div class="col-lg-6 d-flex flex-column justify-content-center order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
-            <h3>Enim quis est voluptatibus aliquid consequatur</h3>
-            <p>Esse voluptas cumque vel exercitationem. Reiciendis est hic accusamus. Non ipsam et sed minima temporibus laudantium. Soluta voluptate sed facere corporis dolores excepturi</p>
-
-            <div class="row">
-
-              <div class="col-lg-6 icon-box d-flex">
-                <i class="bi bi-easel flex-shrink-0"></i>
-                <div>
-                  <h4>Lorem Ipsum</h4>
-                  <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias </p>
-                </div>
-              </div><!-- End Icon Box
-
-              <div class="col-lg-6 icon-box d-flex">
-                <i class="bi bi-patch-check flex-shrink-0"></i>
-                <div>
-                  <h4>Nemo Enim</h4>
-                  <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiise</p>
-                </div>
-              </div><!-- End Icon Box 
-
-              <div class="col-lg-6 icon-box d-flex">
-                <i class="bi bi-brightness-high flex-shrink-0"></i>
-                <div>
-                  <h4>Dine Pad</h4>
-                  <p>Explicabo est voluptatum asperiores consequatur magnam. Et veritatis odit</p>
-                </div>
-              </div><!-- End Icon Box 
-
-              <div class="col-lg-6 icon-box d-flex">
-                <i class="bi bi-brightness-high flex-shrink-0"></i>
-                <div>
-                  <h4>Tride clov</h4>
-                  <p>Est voluptatem labore deleniti quis a delectus et. Saepe dolorem libero sit</p>
-                </div>
-              </div><!-- End Icon Box 
-
-            </div>
-
-          </div>
-
-          <div class="features-image col-lg-5 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
-            <img src="assets/img/features-3-2.jpg" alt="">
-          </div>
-
+<!-- Popup elements -->
+<div id="popup-overlay" class="popup-overlay"></div>
+      <div id="confirmation-popup" class="popup">
+        <p id="confirmation-message">Are you sure you want to apply for this event?</p>
+        <div class="popup-buttons">
+          <button id="confirm-button">Yes</button>
+          <button id="cancel-button">No</button>
         </div>
-
+      </div>
+      <div id="error-popup" class="popup">
+        <p id="error-message"></p>
+        <div class="popup-buttons">
+          <button id="close-button">Close</button>
+        </div>
       </div>
 
-    </section><!-- /Alt Services 2 Section -->
+      <div id="eventButtonsContainer" class="categories-container"></div>
+    </div>
 
-    <!-- Team Section 
-    <section id="team" class="team section">
+    </section>
 
-      <!-- Section Title 
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Team</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title 
 
-      <div class="container">
-
-        <div class="row gy-5">
-
-          <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="100">
-            <div class="member-img">
-              <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
-            </div>
-            <div class="member-info text-center">
-              <h4>Walter White</h4>
-              <span>Chief Executive Officer</span>
-              <p>Aliquam iure quaerat voluptatem praesentium possimus unde laudantium vel dolorum distinctio dire flow</p>
-            </div>
-          </div><!-- End Team Member
-
-          <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="200">
-            <div class="member-img">
-              <img src="assets/img/team/team-2.jpg" class="img-fluid" alt="">
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
-            </div>
-            <div class="member-info text-center">
-              <h4>Sarah Jhonson</h4>
-              <span>Product Manager</span>
-              <p>Labore ipsam sit consequatur exercitationem rerum laboriosam laudantium aut quod dolores exercitationem ut</p>
-            </div>
-          </div><!-- End Team Member 
-
-          <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="300">
-            <div class="member-img">
-              <img src="assets/img/team/team-3.jpg" class="img-fluid" alt="">
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
-            </div>
-            <div class="member-info text-center">
-              <h4>William Anderson</h4>
-              <span>CTO</span>
-              <p>Illum minima ea autem doloremque ipsum quidem quas aspernatur modi ut praesentium vel tque sed facilis at qui</p>
-            </div>
-          </div><!-- End Team Member 
-
-          <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="400">
-            <div class="member-img">
-              <img src="assets/img/team/team-4.jpg" class="img-fluid" alt="">
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
-            </div>
-            <div class="member-info text-center">
-              <h4>Amanda Jepson</h4>
-              <span>Accountant</span>
-              <p>Magni voluptatem accusamus assumenda cum nisi aut qui dolorem voluptate sed et veniam quasi quam consectetur</p>
-            </div>
-          </div><!-- End Team Member 
-
-          <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="500">
-            <div class="member-img">
-              <img src="assets/img/team/team-5.jpg" class="img-fluid" alt="">
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
-            </div>
-            <div class="member-info text-center">
-              <h4>Brian Doe</h4>
-              <span>Marketing</span>
-              <p>Qui consequuntur quos accusamus magnam quo est molestiae eius laboriosam sunt doloribus quia impedit laborum velit</p>
-            </div>
-          </div><!-- End Team Member 
-
-          <div class="col-lg-4 col-md-6 member" data-aos="fade-up" data-aos-delay="600">
-            <div class="member-img">
-              <img src="assets/img/team/team-6.jpg" class="img-fluid" alt="">
-              <div class="social">
-                <a href="#"><i class="bi bi-twitter"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-linkedin"></i></a>
-              </div>
-            </div>
-            <div class="member-info text-center">
-              <h4>Josepha Palas</h4>
-              <span>Operation</span>
-              <p>Sint sint eveniet explicabo amet consequatur nesciunt error enim rerum earum et omnis fugit eligendi cupiditate vel</p>
-            </div>
-          </div><!-- End Team Member 
-
-        </div>
-
-      </div>
-
-    </section><!-- /Team Section -->
-
-    <!-- Testimonials Section 
-    <section id="testimonials" class="testimonials section">
-
-      <!-- Section Title 
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Testimonials</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title 
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="swiper">
-          <script type="application/json" class="swiper-config">
-            {
-              "loop": true,
-              "speed": 600,
-              "autoplay": {
-                "delay": 5000
-              },
-              "slidesPerView": "auto",
-              "pagination": {
-                "el": ".swiper-pagination",
-                "type": "bullets",
-                "clickable": true
-              },
-              "breakpoints": {
-                "320": {
-                  "slidesPerView": 1,
-                  "spaceBetween": 40
-                },
-                "1200": {
-                  "slidesPerView": 2,
-                  "spaceBetween": 20
-                }
-              }
-            }
-          </script>
-          <div class="swiper-wrapper">
-
-            <div class="swiper-slide">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-                  <h3>Saul Goodman</h3>
-                  <h4>Ceo &amp; Founder</h4>
-                  <div class="stars">
-                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                  </div>
-                  <p>
-                    <i class="bi bi-quote quote-icon-left"></i>
-                    <span>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.</span>
-                    <i class="bi bi-quote quote-icon-right"></i>
-                  </p>
-                </div>
-              </div>
-            </div><!-- End testimonial item
-
-            <div class="swiper-slide">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-                  <h3>Sara Wilsson</h3>
-                  <h4>Designer</h4>
-                  <div class="stars">
-                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                  </div>
-                  <p>
-                    <i class="bi bi-quote quote-icon-left"></i>
-                    <span>Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.</span>
-                    <i class="bi bi-quote quote-icon-right"></i>
-                  </p>
-                </div>
-              </div>
-            </div><!-- End testimonial item 
-
-            <div class="swiper-slide">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-                  <h3>Jena Karlis</h3>
-                  <h4>Store Owner</h4>
-                  <div class="stars">
-                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                  </div>
-                  <p>
-                    <i class="bi bi-quote quote-icon-left"></i>
-                    <span>Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.</span>
-                    <i class="bi bi-quote quote-icon-right"></i>
-                  </p>
-                </div>
-              </div>
-            </div><!-- End testimonial item 
-
-            <div class="swiper-slide">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-                  <h3>Matt Brandon</h3>
-                  <h4>Freelancer</h4>
-                  <div class="stars">
-                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                  </div>
-                  <p>
-                    <i class="bi bi-quote quote-icon-left"></i>
-                    <span>Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.</span>
-                    <i class="bi bi-quote quote-icon-right"></i>
-                  </p>
-                </div>
-              </div>
-            </div><!-- End testimonial item 
-
-            <div class="swiper-slide">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-                  <h3>John Larson</h3>
-                  <h4>Entrepreneur</h4>
-                  <div class="stars">
-                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                  </div>
-                  <p>
-                    <i class="bi bi-quote quote-icon-left"></i>
-                    <span>Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.</span>
-                    <i class="bi bi-quote quote-icon-right"></i>
-                  </p>
-                </div>
-              </div>
-            </div><!-- End testimonial item
-
-          </div>
-          <div class="swiper-pagination"></div>
-        </div>
-
-      </div>
-
-    </section><!-- /Testimonials Section -->
 
   </main>
 
@@ -618,71 +293,108 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <script src="assets/js/main.js"></script>
 
   <script>
-        // This PHP code will generate the JavaScript array from your PHP array
-        var eventNames = <?php echo json_encode($events); ?>;
-        console.log(eventNames);
+    var events = <?php echo json_encode($events); ?>;
+    var isLoggedIn = <?php echo json_encode($is_logged_in); ?>;
+    var userId = <?php echo json_encode($user_id); ?>;
+    var userGender = <?php echo json_encode($user['gender'] ?? null); ?>;
+    var loginUrl = '/login.php';
 
-        var eventButtonsContainer = document.getElementById('eventButtonsContainer');
+    console.log(events);
 
-        // Iterate over eventNames array
-        eventNames.forEach(function(eventName) {
-            // Create a new div for each event
-            var eventDiv = document.createElement('div');
-            eventDiv.classList.add('icon-box', 'd-flex', 'position-relative');
-            eventDiv.setAttribute('data-aos', 'fade-up');
-            eventDiv.setAttribute('data-aos-delay', '300');
+    var eventButtonsContainer = document.getElementById('eventButtonsContainer');
 
-            // Create the icon element
-            var iconElement = document.createElement('i');
-            iconElement.innerText = '>>>';
+    events.forEach(function(event) {
+      var eventDiv = document.createElement('div');
+      eventDiv.classList.add('icon-box', 'd-flex', 'position-relative');
+      eventDiv.setAttribute('data-aos', 'fade-up');
+      eventDiv.setAttribute('data-aos-delay', '300');
 
-            // Create the inner div
-            var innerDiv = document.createElement('div');
+      var iconElement = document.createElement('i');
+      iconElement.innerText = '>>>';
 
-            // Create a line break element
-            var lineBreak = document.createElement('br');
+      var innerDiv = document.createElement('div');
 
-            // Create the h4 element
-            var h4Element = document.createElement('h4');
+      var lineBreak = document.createElement('br');
 
-            // Create the link element
-            var linkElement = document.createElement('a');
-            linkElement.setAttribute('href', '#'); // Add your link here
-            linkElement.classList.add('stretched-link');
-            linkElement.innerText = eventName;
+      var h4Element = document.createElement('h4');
 
-            // Append the link element to the h4 element
-            h4Element.appendChild(linkElement);
+      var linkElement = document.createElement('a');
+      linkElement.setAttribute('href', '#');
+      linkElement.classList.add('stretched-link');
+      linkElement.innerText = event.event_name;
+      linkElement.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('Event clicked:', event.event_name);
+        validateAndApply(event.event_id, event.gender, event.quota);
+      });
 
-            // Append the line break and h4 element to the inner div
-            innerDiv.appendChild(lineBreak);
-            innerDiv.appendChild(h4Element);
+      h4Element.appendChild(linkElement);
 
-            // Append the icon and inner div elements to the event div
-            eventDiv.appendChild(iconElement);
-            eventDiv.appendChild(innerDiv);
+      innerDiv.appendChild(lineBreak);
+      innerDiv.appendChild(h4Element);
 
-            // Append the event div to the container
-            eventButtonsContainer.appendChild(eventDiv);
-        });
-    </script>
+      eventDiv.appendChild(iconElement);
+      eventDiv.appendChild(innerDiv);
 
-    <script>
-        function showPopup(message) {
-            document.getElementById('popup-message').innerText = message;
-            document.getElementById('popup').style.display = 'flex';
+      eventButtonsContainer.appendChild(eventDiv);
+    });
+
+    document.getElementById('popup-overlay').addEventListener('click', function() {
+      document.getElementById('popup-overlay').style.display = 'none';
+      document.getElementById('login-popup').style.display = 'none';
+      document.getElementById('confirmation-popup').style.display = 'none';
+    });
+
+    document.getElementById('close-button').addEventListener('click', function() {
+      document.getElementById('popup-overlay').style.display = 'none';
+      document.getElementById('error-popup').style.display = 'none';
+    });
+
+    function validateAndApply(eventId, eventGender, eventQuota) {
+      console.log('Validating application for event ID:', eventId);
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'validate_application.php', true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          var response = JSON.parse(xhr.responseText);
+          console.log('Validation response:', response);
+          if (response.success) {
+            document.getElementById('confirmation-popup').style.display = 'flex';
+            document.getElementById('confirm-button').onclick = function() {
+              applyForEvent(eventId);
+            };
+            document.getElementById('cancel-button').onclick = function() {
+              document.getElementById('confirmation-popup').style.display = 'none';
+            };
+          } else {
+            document.getElementById('error-message').innerText = response.message;
+            document.getElementById('popup-overlay').style.display = 'block';
+            document.getElementById('error-popup').style.display = 'block';
+          }
         }
+      };
+      xhr.send('user_id=' + userId + '&event_id=' + eventId + '&user_gender=' + userGender + '&event_gender=' + eventGender + '&event_quota=' + eventQuota);
+    }
 
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none';
+    function applyForEvent(eventId) {
+      console.log('Applying for event ID:', eventId);
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'apply_event.php', true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          var response = JSON.parse(xhr.responseText);
+          console.log('Application response:', response);
+          document.getElementById('error-message').innerText = response.message;
+          document.getElementById('popup-overlay').style.display = 'block';
+          document.getElementById('error-popup').style.display = 'block';
+          document.getElementById('confirmation-popup').style.display = 'none';
         }
-
-        <?php if (!empty($message)): ?>
-        window.onload = function() {
-            showPopup("<?= $message ?>");
-        }
-        <?php endif; ?>
-    </script>
+      };
+      xhr.send('user_id=' + userId + '&event_id=' + eventId);
+    }
+  </script>
 
 </body>
 
