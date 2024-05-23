@@ -194,7 +194,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="text" id="event_name" name="event_name" required>
             <label for="quota">Quota:</label>
             <input type="number" id="quota" name="quota" required>
-            <label for="gender">Gender:</label>
+            <label for="gender">Category:</label>
             <div>
                 <input type="radio" id="male" name="gender" value="Male" required>
                 <label for="male">Male</label>
