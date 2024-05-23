@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Homepage</title>
-    <link rel="stylesheet" href="assets\css">
+    <link rel="stylesheet" href="css/style.css">
     <style>
        /* Importing the Roboto font from Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
@@ -12,8 +12,8 @@
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f0f8ff;
-            background-image: url('C:\wamp64\www\Group11WebProgProject\Badminton-Competition\assets\img\WIN_20220903_21_30_26_Pro.jpg'); /* Add your background image path here */
-            /* Cover the entire viewport */
+            background-image: url('C:/wamp64/www/Admin 224/shuttlecock background.jpg'); /* Add your background image path here */
+            background-size: cover; /* Cover the entire viewport */
             background-position: center; /* Center the image */
             background-attachment: fixed; /* Fix the background image */
             color: #333;
@@ -199,11 +199,11 @@
         <nav>
             <ul>
                 <li><a href="add_event.php">Add New Event</a></li>
+				<li><a href="set_quotas.php">Set Event Quotas</a></li>
                 <li><a href="view_users.php">View Registered Participants</a></li>
                 <li><a href="delete_users.php">Delete Participant</a></li>
                 <li><a href="search_users.php">Search Participant</a></li>
-                <li><a href="set_quotas.php">Set Event Quotas</a></li>
-                <li><a href="logout.php">Logout</a></li>
+				<li><a href="logout.php">Logout</a></li>
             </ul>
         </nav>
         <div class="content">

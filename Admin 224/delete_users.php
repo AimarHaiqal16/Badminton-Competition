@@ -5,13 +5,22 @@ $message = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_POST['user_id'];
     if (!empty($user_id)) {
-        $sql = "DELETE FROM users WHERE user_id = ?";
+        // First, delete related rows in the applications table
+        $sql = "DELETE FROM applications WHERE user_id = ?";
         $stmt = $con->prepare($sql);
         $stmt->bind_param("i", $user_id);
         if ($stmt->execute()) {
-            $message = "User with ID '$user_id' deleted successfully.";
+            // Then, delete the user
+            $sql = "DELETE FROM users WHERE user_id = ?";
+            $stmt = $con->prepare($sql);
+            $stmt->bind_param("i", $user_id);
+            if ($stmt->execute()) {
+                $message = "User with ID '$user_id' deleted successfully.";
+            } else {
+                $message = "Error deleting user.";
+            }
         } else {
-            $message = "Error deleting user.";
+            $message = "Error deleting user applications.";
         }
         $stmt->close();
     } else {

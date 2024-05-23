@@ -40,15 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             padding: 0;
         }
 
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
         header {
             background-color: #003366;
             color: #ffdd57;
@@ -62,9 +53,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin: 0;
         }
 
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
         form {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
             margin-bottom: 20px;
         }
 
@@ -73,8 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
-            width: 300px;
-            margin-right: 10px;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 10px;
         }
 
         form button {
@@ -85,14 +90,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             cursor: pointer;
             border-radius: 5px;
             font-size: 16px;
+            margin-left: 10px;
         }
 
         form button:hover {
             background-color: #ffdd57;
             color: #003366;
         }
-		
-		.home-button {
+
+        .home-button {
             position: absolute;
             top: 20px;
             right: 20px;
@@ -134,13 +140,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+
+        @media (max-width: 600px) {
+            th, td {
+                padding: 5px;
+                font-size: 14px;
+            }
+
+            header {
+                padding: 10px;
+            }
+
+            .home-button {
+                top: 10px;
+                right: 10px;
+                padding: 5px 10px;
+                font-size: 14px;
+            }
+
+            form input[type="text"] {
+                width: calc(100% - 20px);
+                margin: 10px;
+            }
+
+            form button {
+                margin: 10px auto;
+                width: calc(100% - 20px);
+            }
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Search Participants</h1>
-		<p>Skibidi Badminton Competition</p>
-		<a class="home-button" href="index.php">Home</a>
+        <p>Skibidi Badminton Competition</p>
+        <a class="home-button" href="index.php">Home</a>
     </header>
     <div class="container">
         <form method="POST">
@@ -169,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <td><?= $user['username'] ?></td>
                             <td><?= $user['email'] ?></td>
                             <td><?= $user['full_name'] ?></td>
-                            <td><?= $user['phone_num'] ?></td>                          
+                            <td><?= $user['phone_num'] ?></td>
                             <td><?= $user['gender'] ?></td>
                         </tr>
                     <?php endforeach; ?>
