@@ -103,7 +103,7 @@
             if ($row["adminpassword"] == $password) {
                 session_start();
                 $_SESSION["adminusername"] = $username;
-                header("Location: index.php");
+                header("Location: adminindex.php");
                 exit();
             } else {
                 echo "<script>showAlert('Password wrong');</script>";

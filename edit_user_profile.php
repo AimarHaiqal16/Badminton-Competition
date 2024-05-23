@@ -59,7 +59,7 @@ $row=mysqli_fetch_array($result,MYSQLI_NUM);
                 <div class="form-group text-center">
                   <button type="submit" name="update" class="btn btn-primary">Update</button>
                   <button type="reset" class="btn btn-secondary">Reset</button>
-                  <a class="btn btn-primary" href="userindex.php" role="button">Back to Profile</a>
+                  <a class="btn btn-primary" href="useradminindex.php" role="button">Back to Profile</a>
                 </div>
               </form>
             </div>
@@ -83,4 +83,3 @@ $row=mysqli_fetch_array($result,MYSQLI_NUM);
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>
-

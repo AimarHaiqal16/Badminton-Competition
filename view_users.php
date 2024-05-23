@@ -282,7 +282,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search_term'])) {
     <header>
         <h1>Registered Participants</h1>
         <p>Skibidi Badminton Competition</p>
-        <a class="home-button" href="index.php">Home</a>
+        <a class="home-button" href="adminindex.php">Home</a>
     </header>
     <div class="container">
         <form method="POST">

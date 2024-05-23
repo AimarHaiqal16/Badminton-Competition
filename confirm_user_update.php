@@ -20,6 +20,6 @@ else
  echo '<script>alert("Error in updating data")</script>'; 
 ?>
 
-<a class="btn btn-primary" href="userindex.php" role="button">Back to User Profile</a>
+<a class="btn btn-primary" href="useradminindex.php" role="button">Back to User Profile</a>
 </body>
 </html>

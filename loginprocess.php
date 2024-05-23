@@ -21,7 +21,7 @@ else
         session_start();
         $_SESSION["username"]= $username;
         $_SESSION["user_id"] = $row["user_id"];
-        //go to userindex.php page
+        //go to useradminindex.php page
         header("Location:index_usermain.php");
        // echo "Success";
     }

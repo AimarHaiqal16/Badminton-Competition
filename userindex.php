@@ -62,7 +62,7 @@ if($user==$row[1])
         <ul>
           <li><a href="index_usermain.php">Home</a></li>
           <li><a href="events_user.php">Categories</a></li>
-          <li><a href="userindex.php" class="active">User Profile</a></li>
+          <li><a href="useradminindex.php" class="active">User Profile</a></li>
           <li><a href="logout_user.php">Logout</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>

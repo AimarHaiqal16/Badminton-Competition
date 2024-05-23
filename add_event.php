@@ -186,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <header>
         <h1>Add New Event</h1>
         <p>Skibidi Badminton Competition</p>
-        <a class="home-button" href="index.php">Home</a>
+        <a class="home-button" href="adminindex.php">Home</a>
     </header>
     <div class="container">
         <form method="POST">

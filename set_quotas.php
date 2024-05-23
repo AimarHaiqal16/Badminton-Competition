@@ -237,7 +237,7 @@ if ($result->num_rows > 0) {
     <header>
         <h1>Set Event Quotas</h1>
 		<p>Skibidi Badminton Competition</p>
-		<a class="home-button" href="index.php">Home</a>
+		<a class="home-button" href="adminindex.php">Home</a>
     </header>
     <div class="container">
         <form method="POST">
@@ -265,7 +265,7 @@ if ($result->num_rows > 0) {
     <script>
         function closePopup() {
             document.getElementById('successPopup').style.display = 'none';
-            window.location.href = 'index.php';
+            window.location.href = 'adminindex.php';
         }
 
         <?php if (!empty($success_message)): ?>
