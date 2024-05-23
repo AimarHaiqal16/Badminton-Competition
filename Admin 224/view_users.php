@@ -1,7 +1,10 @@
 <?php
 $con = mysqli_connect("localhost", "root", "", "badmintonevent") or die("Cannot connect to server");
 
-$sql = "SELECT * FROM users";
+$sql = "SELECT users.user_id, users.username, users.password, users.email, users.full_name, users.phone_num, users.gender, events.event_name
+        FROM users
+        LEFT JOIN applications ON users.user_id = applications.user_id
+        LEFT JOIN events ON applications.event_id = events.event_id";
 $result = $con->query($sql);
 $users = [];
 if ($result->num_rows > 0) {
@@ -34,12 +37,15 @@ if ($result->num_rows > 0) {
         }
 
         .container {
-            width: 80%;
-            margin: 0 auto;
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
             padding: 20px;
             background-color: #fff; /* White */
             border: 1px solid #ddd;
+            border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto; /* Enable horizontal scrolling for smaller screens */
         }
 
         table {
@@ -50,12 +56,12 @@ if ($result->num_rows > 0) {
         th, td {
             padding: 10px;
             border-bottom: 1px solid #ddd;
+            text-align: left;
         }
 
         th {
             background-color: #003366; /* Dark Blue */
             color: #ffdd57; /* Yellow */
-            text-align: left;
         }
 
         tr:nth-child(even) {
@@ -89,13 +95,31 @@ if ($result->num_rows > 0) {
             background-color: #003366;
             color: #ffdd57;
         }
+
+        @media (max-width: 600px) {
+            th, td {
+                padding: 5px;
+                font-size: 14px;
+            }
+
+            header {
+                padding: 10px 0;
+            }
+
+            .home-button {
+                top: 10px;
+                right: 10px;
+                padding: 5px 10px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Registered Participants</h1>
-		<p>Skibidi Badminton Competition</p>
-		 <a href="index.php" class="home-button">Home</a>
+        <p>Skibidi Badminton Competition</p>
+        <a href="index.php" class="home-button">Home</a>
     </header>
     <div class="container">
         <table>
@@ -106,8 +130,9 @@ if ($result->num_rows > 0) {
                     <th>Password</th>
                     <th>Email</th>
                     <th>Full Name</th>
-                    <th>Phone Number</th>                   
+                    <th>Phone Number</th>
                     <th>Gender</th>
+                    <th>Event Name</th>
                 </tr>
             </thead>
             <tbody>
@@ -118,8 +143,9 @@ if ($result->num_rows > 0) {
                         <td><?= $user['password'] ?></td>
                         <td><?= $user['email'] ?></td>
                         <td><?= $user['full_name'] ?></td>
-                        <td><?= $user['phone_num'] ?></td>                        
+                        <td><?= $user['phone_num'] ?></td>
                         <td><?= $user['gender'] ?></td>
+                        <td><?= $user['event_name'] ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -127,4 +153,3 @@ if ($result->num_rows > 0) {
     </div>
 </body>
 </html>
-
