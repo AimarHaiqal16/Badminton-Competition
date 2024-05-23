@@ -54,8 +54,8 @@ session_start();
         <ul>
           <li><a href="index_user.html" class="active">Home</a></li>
           <li><a href="events_user.php">Categories</a></li>
-          <li><a href="contact.html">Contact</a></li>
           <li><a href="userindex.php">User Profile</a></li>
+          <li><a href="logout_user.php">Logout</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>

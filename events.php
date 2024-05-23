@@ -66,9 +66,9 @@ if ($result->num_rows > 0) {
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="index.html">Home</a></li>
-          <li><a href="admins.html">Admin</a></li>
-          <li><a href="events.html" class="active">Categories</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <!--<li><a href="admins.html">Admin</a></li>-->
+          <li><a href="events.php" class="active">Categories</a></li>
+          <!--<li><a href="contact.html">Contact</a></li>-->
           <li><a href="login.html">Login</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
