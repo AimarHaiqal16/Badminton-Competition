@@ -200,9 +200,8 @@
             <ul>
                 <li><a href="add_event.php">Add New Event</a></li>
 				<li><a href="set_quotas.php">Set Event Quotas</a></li>
-                <li><a href="view_users.php">View Registered Participants</a></li>
+                <li><a href="view_users.php">View and Search Registered Participants</a></li>
                 <li><a href="delete_users.php">Delete Participant</a></li>
-                <li><a href="search_users.php">Search Participant</a></li>
 				<li><a href="logout.php">Logout</a></li>
             </ul>
         </nav>
