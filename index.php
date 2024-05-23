@@ -43,6 +43,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: relative;
             margin-bottom: 20px;
+			
         }
 
         header h1 {
@@ -62,7 +63,7 @@
             border-radius: 5px;
             transition: background-color 0.3s, color 0.3s;
             text-decoration: none;
-            font-weight: bold;
+           
         }
 
         .logout-button:hover {
